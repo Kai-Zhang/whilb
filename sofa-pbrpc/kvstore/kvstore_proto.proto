@@ -1,0 +1,35 @@
+package test.kvstore_service;
+option cc_generic_services = true;
+
+message StoreRequest {
+    required string key = 1;
+    required string value = 2;
+}
+
+message StoreResponse {
+    enum StoreStatus {
+        STORE_FAILURE = -1;
+        STORE_SUCCESS = 1;
+    }
+    required StoreStatus ret_value = 1;
+}
+
+message ReadRequest {
+    required string key = 1;
+}
+
+message ReadResponse {
+    enum ReadStatus {
+        READ_FAILURE = -1;
+        READ_INEXISTS = 0;
+        READ_SUCCESS = 1;
+    }
+    required ReadStatus status = 1;
+    optional string value = 2;
+}
+
+service KVStoreInterface {
+    rpc Read(ReadRequest) returns(ReadResponse);
+    rpc Store(StoreRequest) returns(StoreResponse);
+}
+

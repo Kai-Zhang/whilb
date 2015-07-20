@@ -1,0 +1,14 @@
+*
+*.*
+!*/
+!*.[ch]
+!*.cpp
+!*.cc
+!*.py
+!*.sh
+!*.proto
+!Makefile
+!*data
+!*.md
+!.gitignore
+
