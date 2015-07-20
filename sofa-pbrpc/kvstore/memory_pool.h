@@ -28,15 +28,12 @@ public:
         return STORE_SUCCESS;
     }
     
-    virtual int read(const std::string &key, std::string *value) const {
+    virtual int read(const std::string &key, std::string &value) const {
 		std::map<std::string, std::string>::const_iterator dst_iter = this->_map.find(key);
         if (dst_iter == this->_map.end()) {
             return READ_INEXISTS;
         }
-        if (value == NULL) {
-            value = new std::string();
-        }
-        *value = dst_iter->second;
+        value = dst_iter->second;
         return READ_SUCCESS;
     }
 

@@ -15,7 +15,7 @@ public:
 
     int put(const std::string &key, const std::string &value);
 
-    int get(const std::string &key, std::string *value);
+    int get(const std::string &key, std::string &value);
 
 private:
     sofa::pbrpc::RpcClient *_rpc_client;
@@ -57,7 +57,7 @@ int KVStore_client_sync::put(const std::string &key, const std::string &value) {
     return response.ret_value();
 }
 
-int KVStore_client_sync::get(const std::string &key, std::string *value) {
+int KVStore_client_sync::get(const std::string &key, std::string &value) {
     ReadRequest request;
     request.set_key(key);
 
@@ -72,12 +72,8 @@ int KVStore_client_sync::get(const std::string &key, std::string *value) {
         return ReadResponse::READ_FAILURE;
     }
 
-    if (value == NULL) {
-        value = new std::string();
-    }
-
     if (response.status() == ReadResponse::READ_SUCCESS) {
-        *value = response.value();
+        value = response.value();
     }
 
     return response.status();
@@ -119,7 +115,7 @@ int main(int argc, char **argv) {
         } else if (!choice.compare("read") || !choice.compare("r")) {
             printf("Please input the key\n > ");
             std::getline(std::cin, key);
-            int ret = client.get(key, &value);
+            int ret = client.get(key, value);
             if (ret == test::kvstore_service::ReadResponse::READ_SUCCESS) {
                 std::cout << "Value: " << value << std::endl;
             } else if (ret == test::kvstore_service::ReadResponse::READ_INEXISTS) {

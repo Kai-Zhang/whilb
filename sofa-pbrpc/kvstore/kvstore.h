@@ -22,7 +22,7 @@ public:
                       google::protobuf::Closure *done) {
         // Access memory pool for reading
         std::string read_rst;
-        int ret_value = this->_memory_pool.read(request->key(), &read_rst);
+        int ret_value = this->_memory_pool.read(request->key(), read_rst);
         response->set_status((ReadResponse_ReadStatus)ret_value);
         if (ret_value == ReadResponse::READ_SUCCESS) {
             response->set_value(read_rst);
